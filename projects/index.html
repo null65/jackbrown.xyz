@@ -36,7 +36,7 @@
 
 <script>
     const GITHUB_USER = 'null65';
-    const REPO_NAME = 'radioforus'; // Ensure this matches your repo name
+    const REPO_NAME = 'jackbrown.xyz'; 
     const FOLDER_PATH = 'projects';
 
     async function fetchProjects() {
@@ -47,10 +47,10 @@
 
             if (!Array.isArray(data)) throw new Error();
 
-            listElement.innerHTML = ''; // Clear loading state
+            listElement.innerHTML = ''; 
 
             data.forEach(item => {
-                // We only want to show directories (folders)
+         
                 if (item.type === 'dir') {
                     const card = document.createElement('a');
                     card.className = 'project-item';
