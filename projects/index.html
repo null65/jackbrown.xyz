@@ -50,18 +50,24 @@
             listElement.innerHTML = ''; 
 
             data.forEach(item => {
-         
-                if (item.type === 'dir') {
+                if (item.name !== 'index.html') {
                     const card = document.createElement('a');
                     card.className = 'project-item';
+                    
+                    const cleanName = item.name.split('.')[0].toUpperCase().replace(/-/g, ' ').replace(/_/g, ' ');
+                    
                     card.href = `/${FOLDER_PATH}/${item.name}`;
                     card.innerHTML = `
-                        ${item.name.toUpperCase()}
+                        ${cleanName}
                         <span>View Project →</span>
                     `;
                     listElement.appendChild(card);
                 }
             });
+
+            if (listElement.innerHTML === '') {
+                listElement.innerHTML = '<p>No projects found.</p>';
+            }
         } catch (error) {
             listElement.innerHTML = '<p style="color:red;">Error loading projects. Check repo name.</p>';
         }
