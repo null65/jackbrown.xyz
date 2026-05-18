@@ -1,0 +1,1 @@
+hello all! i would be hosting my portfolio website on a proper server at my proper house. But due to unforseen circumstances involving a bad powersupply. That server has sadly died. Replacments have arrived and are being setup!
