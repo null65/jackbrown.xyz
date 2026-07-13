@@ -1,1 +1,5 @@
-hello all! i would be hosting my portfolio website on a proper server at my proper house. But due to unforseen circumstances involving a bad powersupply. That server has sadly died. Replacments have arrived and are being setup!
+# jackbrown.xyz
+
+Personal site for **Jack Brown · M9JAK** — websites, Linux servers, and amateur radio systems.
+
+Live at [jackbrown.xyz](https://jackbrown.xyz). Contact: [hello@jackbrown.xyz](mailto:hello@jackbrown.xyz).
