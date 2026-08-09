@@ -5,17 +5,26 @@ import { site } from '../data/site';
 
 <BaseLayout
   title="Contact"
-  description="Email Jack Brown about a project at enquiries@jackbrown.xyz."
+  description="Contact Jack Brown at hello@jackbrown.xyz, Rockwell Hitec, or RadioForUs."
 >
   <header class="page-intro">
     <h1>Contact</h1>
-    <p>Open to project enquiries. Say what you need and I’ll get back to you.</p>
+    <p>Open to project enquiries. Pick the address that fits, or use hello@ for anything else.</p>
   </header>
 
   <div class="contact-block panel">
     <div class="contact-row">
       <span>Email</span>
-      <a href={`mailto:${site.email}`}>{site.email}</a>
+      <ul class="email-list">
+        {
+          site.emails.map((entry) => (
+            <li>
+              <a href={`mailto:${entry.address}`}>{entry.address}</a>
+              <span class="email-label">{entry.label}</span>
+            </li>
+          ))
+        }
+      </ul>
     </div>
     <div class="contact-row">
       <span>Location</span>
@@ -24,6 +33,10 @@ import { site } from '../data/site';
     <div class="contact-row">
       <span>GitHub</span>
       <a href={site.github} rel="me noopener noreferrer">github.com/null65</a>
+    </div>
+    <div class="contact-row">
+      <span>LinkedIn</span>
+      <a href={site.linkedin} rel="me noopener noreferrer">linkedin.com/in/driverjack</a>
     </div>
   </div>
 </BaseLayout>
