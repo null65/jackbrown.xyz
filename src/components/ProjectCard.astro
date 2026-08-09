@@ -1,0 +1,43 @@
+---
+import type { Project } from '../data/site';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+{
+  project.href ? (
+    <a class="project" href={project.href} rel="noopener noreferrer" target="_blank">
+      <div class="project-top">
+        <h3>{project.title}</h3>
+        {project.logo && (
+          <img class="project-logo" src={project.logo} alt={project.logoAlt ?? ''} />
+        )}
+      </div>
+      <p>{project.summary}</p>
+      <ul class="tags">
+        {project.tags.map((tag) => (
+          <li>{tag}</li>
+        ))}
+      </ul>
+    </a>
+  ) : (
+    <article class="project">
+      <div class="project-top">
+        <h3>{project.title}</h3>
+        {project.logo && (
+          <img class="project-logo" src={project.logo} alt={project.logoAlt ?? ''} />
+        )}
+      </div>
+      <p>{project.summary}</p>
+      <ul class="tags">
+        {project.tags.map((tag) => (
+          <li>{tag}</li>
+        ))}
+      </ul>
+    </article>
+  )
+}

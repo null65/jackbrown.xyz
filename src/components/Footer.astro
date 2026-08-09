@@ -1,0 +1,41 @@
+---
+import { friends, site } from '../data/site';
+---
+
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div>
+      <h2>Friends</h2>
+      {
+        friends.map((friend) => (
+          <a class="friend" href={friend.href} rel="noopener noreferrer">
+            <img src={friend.logo} alt="" width="48" height="48" />
+            <span>
+              <strong>{friend.name}</strong>
+              <span>{friend.note}</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+    <div class="footer-meta">
+      <h2>Elsewhere</h2>
+      <p>
+        <a href={site.github} rel="me noopener noreferrer">GitHub</a>
+        {
+          site.linkedin && (
+            <>
+              {' · '}
+              <a href={site.linkedin} rel="me noopener noreferrer">
+                LinkedIn
+              </a>
+            </>
+          )
+        }
+        {' · '}
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
+      <p>Based in the {site.location}.</p>
+    </div>
+  </div>
+</footer>

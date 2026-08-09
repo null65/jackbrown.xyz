@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects, site, skills } from '../data/site';
+
+const featured = projects.filter((project) => !project.radio).slice(0, 3);
+---
+
+<BaseLayout>
+  <section class="hero">
+    <img
+      class="avatar"
+      src="/photo-avatar.jpg"
+      alt={`Portrait of ${site.name}`}
+      width="480"
+      height="480"
+    />
+    <div class="hero-copy">
+      <h1>{site.name}</h1>
+      <p class="meta">Student · {site.location}</p>
+      <div class="actions">
+        <a class="button button-primary" href="/projects">View projects</a>
+        <a class="button button-secondary" href="/contact">Enquire about a project</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="skills-heading">
+    <div class="section-head">
+      <h2 id="skills-heading">Skills</h2>
+    </div>
+    <ul class="skills">
+      {skills.map((skill) => <li>{skill}</li>)}
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="projects-heading">
+    <div class="section-head">
+      <h2 id="projects-heading">Selected work</h2>
+      <a href="/projects">All projects</a>
+    </div>
+    <div class="project-grid">
+      {featured.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</BaseLayout>

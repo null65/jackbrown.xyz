@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Email Jack Brown about a project at enquiries@jackbrown.xyz."
+>
+  <header class="page-intro">
+    <h1>Contact</h1>
+    <p>Open to project enquiries. Say what you need and I’ll get back to you.</p>
+  </header>
+
+  <div class="contact-block panel">
+    <div class="contact-row">
+      <span>Email</span>
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
+    <div class="contact-row">
+      <span>Location</span>
+      <strong>{site.location}</strong>
+    </div>
+    <div class="contact-row">
+      <span>GitHub</span>
+      <a href={site.github} rel="me noopener noreferrer">github.com/null65</a>
+    </div>
+  </div>
+</BaseLayout>

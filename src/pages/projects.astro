@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/site';
+
+const webProjects = projects.filter((project) => !project.radio);
+const radioProjects = projects.filter((project) => project.radio);
+---
+
+<BaseLayout
+  title="Projects"
+  description="Websites, booking systems, and radio infrastructure built by Jack Brown."
+>
+  <header class="page-intro">
+    <h1>Projects</h1>
+    <p>Real work only — sites, booking tools, and radio infrastructure.</p>
+  </header>
+
+  <section class="section" aria-labelledby="web-heading">
+    <div class="section-head">
+      <h2 id="web-heading">Web & software</h2>
+    </div>
+    <div class="project-grid">
+      {webProjects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="radio-projects-heading">
+    <div class="section-head">
+      <h2 id="radio-projects-heading">Amateur radio</h2>
+      <a href="/radio">Radio page</a>
+    </div>
+    <div class="project-grid">
+      {radioProjects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</BaseLayout>

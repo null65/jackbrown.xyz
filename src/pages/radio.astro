@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/site';
+
+const radioProjects = projects.filter((project) => project.radio);
+---
+
+<BaseLayout
+  title="Amateur radio"
+  description="Amateur radio work by Jack Brown, M9JAK — AllStarLink, gateways, and RadioForUs MultiMode."
+>
+  <header class="page-intro">
+    <h1>Amateur radio</h1>
+    <p>Infrastructure and builds for the hobby — kept brief on purpose.</p>
+  </header>
+
+  <p class="callsign" aria-label="Callsign">M9JAK</p>
+
+  <section class="panel" aria-labelledby="multimode-heading">
+    <h2 id="multimode-heading">RadioForUs MultiMode</h2>
+    <p>
+      The ASL3 hub was built for RadioForUs and is still running. The network includes a digital
+      bridge and support for DMR 2044 on TGIF &amp; SystemX, a Discord bridge, and analogue.
+    </p>
+    <p style="margin-top: 0.75rem;">
+      Full details live on{' '}
+      <a href="https://radioforus.co.uk" rel="noopener noreferrer">radioforus.co.uk</a>.
+    </p>
+  </section>
+
+  <section class="section" aria-labelledby="builds-heading">
+    <div class="section-head">
+      <h2 id="builds-heading">Builds</h2>
+    </div>
+    <div class="project-grid">
+      {radioProjects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</BaseLayout>
