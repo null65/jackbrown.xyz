@@ -1,0 +1,436 @@
+---
+import '../../styles/global.css';
+import '../../styles/admin.css';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content="Project admin for jackbrown.xyz" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600&family=Manrope:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <title>Admin · Jack Brown</title>
+    <script is:inline>
+      (() => {
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = stored === 'light' || stored === 'dark' ? stored : prefersDark ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+  </head>
+  <body class="admin-body">
+    <div class="admin-shell">
+      <header class="admin-top">
+        <div>
+          <p class="admin-kicker"><a href="/">jackbrown.xyz</a></p>
+          <h1>Projects admin</h1>
+        </div>
+        <div class="admin-top-actions">
+          <button class="theme-toggle" type="button" data-theme-toggle>Dark</button>
+          <button class="button button-secondary" type="button" id="logout" hidden>Log out</button>
+        </div>
+      </header>
+
+      <section class="panel admin-panel" id="login-panel">
+        <h2>Sign in with GitHub</h2>
+        <p class="admin-help">
+          Create a fine grained personal access token with Contents read and write on
+          <strong>null65/jackbrown.xyz</strong>, then paste it here. It stays in this browser only.
+        </p>
+        <form id="login-form" class="admin-form">
+          <label>
+            GitHub token
+            <input type="password" name="token" autocomplete="off" required placeholder="github_pat_…" />
+          </label>
+          <button class="button button-primary" type="submit">Sign in</button>
+        </form>
+        <p class="admin-status" id="login-status" hidden></p>
+      </section>
+
+      <section class="admin-app" id="app" hidden>
+        <div class="admin-grid">
+          <div class="panel admin-panel">
+            <div class="section-head">
+              <h2>Your projects</h2>
+              <button class="button button-secondary" type="button" id="refresh">Refresh</button>
+            </div>
+            <ul class="admin-project-list" id="project-list"></ul>
+          </div>
+
+          <div class="panel admin-panel">
+            <h2 id="form-title">Add project</h2>
+            <form id="project-form" class="admin-form">
+              <input type="hidden" name="sha" value="" />
+              <input type="hidden" name="path" value="" />
+              <label>
+                Title
+                <input type="text" name="title" required placeholder="My project" />
+              </label>
+              <label>
+                Summary
+                <textarea name="summary" rows="4" required placeholder="What you built"></textarea>
+              </label>
+              <label>
+                Tags
+                <input type="text" name="tags" placeholder="HTML, CSS, JavaScript" />
+              </label>
+              <label>
+                Link
+                <input type="url" name="href" placeholder="https://" />
+              </label>
+              <label>
+                Logo path
+                <input type="text" name="logo" placeholder="/my-logo.png" />
+              </label>
+              <label>
+                Logo alt text
+                <input type="text" name="logoAlt" placeholder="Company name" />
+              </label>
+              <label>
+                Order
+                <input type="number" name="order" value="100" />
+              </label>
+              <label class="admin-check">
+                <input type="checkbox" name="radio" />
+                Amateur radio project
+              </label>
+              <label class="admin-check">
+                <input type="checkbox" name="featured" />
+                Show on home page
+              </label>
+              <div class="admin-form-actions">
+                <button class="button button-primary" type="submit">Save project</button>
+                <button class="button button-secondary" type="button" id="reset-form">Clear</button>
+              </div>
+            </form>
+            <p class="admin-status" id="form-status" hidden></p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const REPO = 'null65/jackbrown.xyz';
+      const BRANCH = 'main';
+      const PROJECTS_PATH = 'src/content/projects';
+      const TOKEN_KEY = 'jb_admin_github_token';
+
+      const loginPanel = document.getElementById('login-panel');
+      const app = document.getElementById('app');
+      const loginForm = document.getElementById('login-form');
+      const loginStatus = document.getElementById('login-status');
+      const form = document.getElementById('project-form');
+      const formTitle = document.getElementById('form-title');
+      const formStatus = document.getElementById('form-status');
+      const projectList = document.getElementById('project-list');
+      const logoutButton = document.getElementById('logout');
+      const refreshButton = document.getElementById('refresh');
+      const resetButton = document.getElementById('reset-form');
+      const themeButton = document.querySelector('[data-theme-toggle]');
+
+      const api = (path, token, options = {}) =>
+        fetch(`https://api.github.com${path}`, {
+          ...options,
+          headers: {
+            Accept: 'application/vnd.github+json',
+            Authorization: `Bearer ${token}`,
+            'X-GitHub-Api-Version': '2022-11-28',
+            ...(options.headers || {}),
+          },
+        });
+
+      const showStatus = (el, message, isError = false) => {
+        if (!el) return;
+        el.hidden = false;
+        el.textContent = message;
+        el.dataset.error = isError ? 'true' : 'false';
+      };
+
+      const slugify = (value) =>
+        value
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '') || 'project';
+
+      const yamlEscape = (value) => {
+        if (value === '') return "''";
+        if (/[:#{}[\],&*?|>!%@`]/.test(value) || value.includes('\n') || value.includes("'")) {
+          return JSON.stringify(value);
+        }
+        return value;
+      };
+
+      const toYaml = (data) => {
+        const summary = data.summary.replace(/\s+/g, ' ').trim();
+        const tags =
+          data.tags.length > 0
+            ? `tags:\n${data.tags.map((tag) => `  - ${yamlEscape(tag)}`).join('\n')}`
+            : 'tags: []';
+
+        return [
+          `title: ${yamlEscape(data.title)}`,
+          'summary: >-',
+          `  ${summary}`,
+          tags,
+          `href: ${yamlEscape(data.href)}`,
+          `logo: ${yamlEscape(data.logo)}`,
+          `logoAlt: ${yamlEscape(data.logoAlt)}`,
+          `radio: ${data.radio}`,
+          `featured: ${data.featured}`,
+          `order: ${data.order}`,
+          '',
+        ].join('\n');
+      };
+
+      const parseYaml = (raw) => {
+        const data = {
+          title: '',
+          summary: '',
+          tags: [],
+          href: '',
+          logo: '',
+          logoAlt: '',
+          radio: false,
+          featured: false,
+          order: 100,
+        };
+
+        const lines = raw.replace(/\r\n/g, '\n').split('\n');
+        let i = 0;
+        while (i < lines.length) {
+          const line = lines[i];
+          if (line.startsWith('title:')) data.title = unquote(line.slice(6).trim());
+          else if (line.startsWith('summary:')) {
+            const inline = line.slice(8).trim();
+            if (inline === '>-' || inline === '|' || inline === '>') {
+              const parts = [];
+              i += 1;
+              while (i < lines.length && (lines[i].startsWith('  ') || lines[i] === '')) {
+                if (lines[i].startsWith('  ')) parts.push(lines[i].slice(2).trim());
+                i += 1;
+              }
+              data.summary = parts.join(' ').trim();
+              continue;
+            } else {
+              data.summary = unquote(inline);
+            }
+          } else if (line.startsWith('tags:')) {
+            if (line.trim() === 'tags: []') data.tags = [];
+            else {
+              const tags = [];
+              i += 1;
+              while (i < lines.length && lines[i].trim().startsWith('- ')) {
+                tags.push(unquote(lines[i].trim().slice(2)));
+                i += 1;
+              }
+              data.tags = tags;
+              continue;
+            }
+          } else if (line.startsWith('href:')) data.href = unquote(line.slice(5).trim());
+          else if (line.startsWith('logo:')) data.logo = unquote(line.slice(5).trim());
+          else if (line.startsWith('logoAlt:')) data.logoAlt = unquote(line.slice(8).trim());
+          else if (line.startsWith('radio:')) data.radio = line.slice(6).trim() === 'true';
+          else if (line.startsWith('featured:')) data.featured = line.slice(9).trim() === 'true';
+          else if (line.startsWith('order:')) data.order = Number(line.slice(6).trim()) || 100;
+          i += 1;
+        }
+        return data;
+      };
+
+      const unquote = (value) => {
+        if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+          try {
+            return JSON.parse(value.replace(/^'/, '"').replace(/'$/, '"'));
+          } catch {
+            return value.slice(1, -1);
+          }
+        }
+        return value === "''" ? '' : value;
+      };
+
+      const getToken = () => localStorage.getItem(TOKEN_KEY) || '';
+
+      const setLoggedIn = (loggedIn) => {
+        loginPanel.hidden = loggedIn;
+        app.hidden = !loggedIn;
+        logoutButton.hidden = !loggedIn;
+      };
+
+      const resetForm = () => {
+        form.reset();
+        form.sha.value = '';
+        form.path.value = '';
+        form.order.value = '100';
+        formTitle.textContent = 'Add project';
+        formStatus.hidden = true;
+      };
+
+      const fillForm = (path, sha, data) => {
+        form.path.value = path;
+        form.sha.value = sha;
+        form.title.value = data.title;
+        form.summary.value = data.summary;
+        form.tags.value = data.tags.join(', ');
+        form.href.value = data.href;
+        form.logo.value = data.logo;
+        form.logoAlt.value = data.logoAlt;
+        form.order.value = String(data.order);
+        form.radio.checked = data.radio;
+        form.featured.checked = data.featured;
+        formTitle.textContent = `Edit ${data.title}`;
+        formStatus.hidden = true;
+      };
+
+      const loadProjects = async () => {
+        const token = getToken();
+        projectList.innerHTML = '<li class="admin-muted">Loading…</li>';
+
+        const listRes = await api(`/repos/${REPO}/contents/${PROJECTS_PATH}?ref=${BRANCH}`, token);
+        if (!listRes.ok) {
+          const err = await listRes.json().catch(() => ({}));
+          projectList.innerHTML = `<li class="admin-muted">${err.message || 'Could not load projects.'}</li>`;
+          if (listRes.status === 401 || listRes.status === 403) {
+            localStorage.removeItem(TOKEN_KEY);
+            setLoggedIn(false);
+            showStatus(loginStatus, 'Token was rejected. Check repo access and try again.', true);
+          }
+          return;
+        }
+
+        const files = (await listRes.json()).filter(
+          (file) => file.type === 'file' && /\.ya?ml$/i.test(file.name),
+        );
+
+        if (files.length === 0) {
+          projectList.innerHTML = '<li class="admin-muted">No projects yet.</li>';
+          return;
+        }
+
+        const items = await Promise.all(
+          files.map(async (file) => {
+            const fileRes = await api(`/repos/${REPO}/contents/${file.path}?ref=${BRANCH}`, token);
+            const payload = await fileRes.json();
+            const raw = decodeURIComponent(escape(atob(payload.content.replace(/\n/g, ''))));
+            return { path: file.path, sha: payload.sha, name: file.name, data: parseYaml(raw) };
+          }),
+        );
+
+        items.sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title));
+
+        projectList.innerHTML = '';
+        for (const item of items) {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <button type="button" class="admin-project-item">
+              <strong>${item.data.title}</strong>
+              <span>${item.data.radio ? 'Radio' : 'Web'} · order ${item.data.order}</span>
+            </button>
+          `;
+          li.querySelector('button')?.addEventListener('click', () => {
+            fillForm(item.path, item.sha, item.data);
+          });
+          projectList.appendChild(li);
+        }
+      };
+
+      loginForm?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const token = new FormData(loginForm).get('token')?.toString().trim() || '';
+        showStatus(loginStatus, 'Checking token…');
+        const res = await api(`/repos/${REPO}`, token);
+        if (!res.ok) {
+          showStatus(loginStatus, 'Could not access the repo with that token.', true);
+          return;
+        }
+        localStorage.setItem(TOKEN_KEY, token);
+        setLoggedIn(true);
+        loginStatus.hidden = true;
+        await loadProjects();
+      });
+
+      form?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const token = getToken();
+        const title = form.title.value.trim();
+        const summary = form.summary.value.trim();
+        const tags = form.tags.value
+          .split(',')
+          .map((tag) => tag.trim())
+          .filter(Boolean);
+        const href = form.href.value.trim();
+        const logo = form.logo.value.trim();
+        const logoAlt = form.logoAlt.value.trim();
+        const order = Number(form.order.value) || 100;
+        const radio = form.radio.checked;
+        const featured = form.featured.checked;
+
+        const slug = slugify(title);
+        const path = form.path.value || `${PROJECTS_PATH}/${slug}.yaml`;
+        const yaml = toYaml({ title, summary, tags, href, logo, logoAlt, radio, featured, order });
+        const body = {
+          message: form.path.value ? `Update project ${title}` : `Add project ${title}`,
+          content: btoa(unescape(encodeURIComponent(yaml))),
+          branch: BRANCH,
+        };
+        if (form.sha.value) body.sha = form.sha.value;
+
+        showStatus(formStatus, 'Saving…');
+        const res = await api(`/repos/${REPO}/contents/${path}`, token, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          showStatus(formStatus, err.message || 'Save failed.', true);
+          return;
+        }
+
+        showStatus(formStatus, 'Saved. GitHub Actions will publish it in a minute.');
+        resetForm();
+        await loadProjects();
+      });
+
+      logoutButton?.addEventListener('click', () => {
+        localStorage.removeItem(TOKEN_KEY);
+        setLoggedIn(false);
+        resetForm();
+      });
+
+      refreshButton?.addEventListener('click', () => loadProjects());
+      resetButton?.addEventListener('click', () => resetForm());
+
+      const syncTheme = () => {
+        const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        if (themeButton) {
+          themeButton.textContent = theme === 'dark' ? 'Light' : 'Dark';
+        }
+      };
+
+      themeButton?.addEventListener('click', () => {
+        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        syncTheme();
+      });
+
+      syncTheme();
+
+      if (getToken()) {
+        setLoggedIn(true);
+        loadProjects();
+      }
+    </script>
+  </body>
+</html>

@@ -11,15 +11,14 @@ npm install
 npm run dev
 ```
 
-## Add a project (CMS)
+## Add a project
 
-1. Run `npm run dev`
-2. Open [http://127.0.0.1:4321/keystatic/](http://127.0.0.1:4321/keystatic/)
-3. Click **Projects** → **Create entry**
-4. Fill in the fields and save
-5. Commit and push (GitHub Actions publishes the site)
+Open [https://jackbrown.xyz/admin/](https://jackbrown.xyz/admin/).
 
-The CMS is local only. Your live site stays static on GitHub Pages.
+1. Create a fine grained GitHub token with Contents read/write on `null65/jackbrown.xyz`
+2. Sign in on the admin page
+3. Add or edit a project and save
+4. GitHub Actions publishes the change
 
 ## Build
 
