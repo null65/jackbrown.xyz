@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects · Jack Brown M9JAK</title>
+    <meta name="description" content="Selected projects by Jack Brown — RadioForUs, MB7IJB gateway, AllStarLink, John Kinski, and more.">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .projects-page {
+            padding: calc(var(--header-h) + 3rem) 0 5rem;
+        }
+        .projects-page .section-head {
+            margin-bottom: 2.5rem;
+        }
+        .project-dir {
+            list-style: none;
+            display: grid;
+            gap: 0;
+        }
+        .project-dir a {
+            display: grid;
+            grid-template-columns: 4rem 1fr auto;
+            gap: 1rem;
+            align-items: baseline;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--line);
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.2s ease;
+        }
+        .project-dir li:last-child a {
+            border-bottom: 1px solid var(--line);
+        }
+        .project-dir a:hover {
+            color: var(--accent);
+        }
+        .project-dir .num {
+            color: var(--accent);
+            font-family: var(--font-display);
+            font-weight: 700;
+        }
+        .project-dir h2 {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.3rem;
+        }
+        .project-dir p {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+        .project-dir .go {
+            color: var(--signal);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 700px) {
+            .project-dir a {
+                grid-template-columns: 2.5rem 1fr;
+            }
+            .project-dir .go {
+                grid-column: 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header is-scrolled">
+        <div class="header-inner">
+            <a class="brand" href="/">
+                <span class="brand-name">Jack Brown</span>
+                <span class="brand-call">M9JAK</span>
+            </a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="/#about">About</a>
+                <a href="/#experience">Experience</a>
+                <a href="/#projects">Projects</a>
+                <a href="/#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="projects-page">
+        <div class="container">
+            <div class="section-head">
+                <p class="eyebrow">Directory</p>
+                <h1 style="font-family:var(--font-display);font-size:clamp(2rem,5vw,3.2rem);letter-spacing:-0.04em;line-height:1.05;">Projects</h1>
+                <p class="section-lede">Curated builds — sites, radio gateways, and tools.</p>
+            </div>
+
+            <ul class="project-dir">
+                <li>
+                    <a href="/#projects">
+                        <span class="num">01</span>
+                        <div>
+                            <h2>RadioForUs.co.uk</h2>
+                            <p>Channel website, MultiMode hub, servers &amp; ops.</p>
+                        </div>
+                        <span class="go">On homepage →</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/projects/mb7ijb.html">
+                        <span class="num">02</span>
+                        <div>
+                            <h2>MB7IJB Gateway</h2>
+                            <p>Analogue FM AllStar simplex gateway · Leighton Buzzard.</p>
+                        </div>
+                        <span class="go">Open →</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/#projects">
+                        <span class="num">03</span>
+                        <div>
+                            <h2>AllStarLink 3 Hub</h2>
+                            <p>Test hub for nodes before FreeSTAR and wider nets.</p>
+                        </div>
+                        <span class="go">On homepage →</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://johnkinski.com" target="_blank" rel="noopener noreferrer">
+                        <span class="num">04</span>
+                        <div>
+                            <h2>John Kinski</h2>
+                            <p>Author portfolio — Theatrecy &amp; Tottenham Boys.</p>
+                        </div>
+                        <span class="go">Live site →</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/null65/RFU-Propagation-Chrome-Extension" target="_blank" rel="noopener noreferrer">
+                        <span class="num">05</span>
+                        <div>
+                            <h2>RFU Propagation Extension</h2>
+                            <p>Chrome dashboard for RadioForUs band conditions.</p>
+                        </div>
+                        <span class="go">GitHub →</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>© 2026 Jack Brown · M9JAK</p>
+            <a href="/">Home</a>
+        </div>
+    </footer>
+</body>
+</html>

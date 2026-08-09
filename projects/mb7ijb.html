@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MB7IJB Gateway · Jack Brown M9JAK</title>
+    <meta name="description" content="MB7IJB — Leighton Buzzard AllStar simplex gateway on 430.025 MHz by Jack Brown M9JAK.">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .case {
+            padding: calc(var(--header-h) + 3rem) 0 5rem;
+        }
+        .case-kicker {
+            color: var(--signal);
+            font-size: 0.78rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 0.85rem;
+        }
+        .case h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 8vw, 5rem);
+            letter-spacing: -0.05em;
+            line-height: 0.95;
+            margin-bottom: 0.5rem;
+        }
+        .case-sub {
+            color: var(--muted);
+            font-size: 1.15rem;
+            margin-bottom: 2.5rem;
+        }
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.85rem;
+            margin-bottom: 2.5rem;
+        }
+        .spec {
+            background: var(--bg-elevated);
+            border: 1px solid var(--line);
+            border-radius: 1rem;
+            padding: 1.1rem 1.2rem;
+        }
+        .spec dt {
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.35rem;
+        }
+        .spec dd {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: -0.02em;
+        }
+        .spec a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .case-block {
+            background: var(--bg-elevated);
+            border: 1px solid var(--line);
+            border-radius: 1.25rem;
+            padding: clamp(1.4rem, 3vw, 2rem);
+            margin-bottom: 1.25rem;
+        }
+        .case-block h2 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.85rem;
+        }
+        .case-block p + p,
+        .case-block ul {
+            margin-top: 0.85rem;
+        }
+        .case-block ul {
+            padding-left: 1.2rem;
+            color: rgba(242, 239, 230, 0.88);
+        }
+        .command {
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            background: rgba(94, 196, 168, 0.12);
+            color: var(--signal);
+            padding: 0.1rem 0.4rem;
+            border-radius: 0.3rem;
+            font-weight: 600;
+        }
+        .report-image {
+            margin: 1.25rem 0;
+            border-radius: 0.9rem;
+            border: 1px solid var(--line);
+            overflow: hidden;
+            max-width: 36rem;
+        }
+        .report-image img {
+            width: 100%;
+        }
+        .attribution {
+            color: var(--muted);
+            font-style: italic;
+            border-left: 2px solid var(--accent);
+            padding-left: 1rem;
+        }
+        .back {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back:hover {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header is-scrolled">
+        <div class="header-inner">
+            <a class="brand" href="/">
+                <span class="brand-name">Jack Brown</span>
+                <span class="brand-call">M9JAK</span>
+            </a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="/projects/">Projects</a>
+                <a href="/#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="case">
+        <div class="container" style="max-width:800px">
+            <a class="back" href="/projects/">← All projects</a>
+            <p class="case-kicker">Amateur radio gateway</p>
+            <h1>MB7IJB</h1>
+            <p class="case-sub">Leighton Buzzard AllStar simplex gateway — bridging analogue FM into online networks.</p>
+
+            <dl class="spec-grid">
+                <div class="spec">
+                    <dt>Frequency</dt>
+                    <dd>430.025 MHz</dd>
+                </div>
+                <div class="spec">
+                    <dt>CTCSS</dt>
+                    <dd>67.0 Hz</dd>
+                </div>
+                <div class="spec">
+                    <dt>Node</dt>
+                    <dd>682192</dd>
+                </div>
+                <div class="spec">
+                    <dt>Network</dt>
+                    <dd>FreeSTAR</dd>
+                </div>
+                <div class="spec">
+                    <dt>Dashboard</dt>
+                    <dd><a href="https://dash.radioforus.co.uk/#682192" target="_blank" rel="noopener noreferrer">AllMon3</a></dd>
+                </div>
+            </dl>
+
+            <div class="case-block">
+                <h2>About the gateway</h2>
+                <p>
+                    MB7IJB runs on a Motorola GM1280 and a Raspberry Pi 4 (kindly provided by G7HMV).
+                    It connects traditional analogue FM operators to AllStar / FreeSTAR so people can talk across the usual RF and internet bridge worlds.
+                </p>
+            </div>
+
+            <div class="case-block">
+                <h2>Operating instructions</h2>
+                <p>This gateway is usually linked to the <strong>FreeSTAR</strong> network. You’re welcome to unlink and move it:</p>
+                <ul>
+                    <li>Disconnect all links: send <span class="command">*73</span></li>
+                    <li>Link a new node: send <span class="command">*3</span> then the <span class="command">node-number</span></li>
+                </ul>
+                <p style="color:var(--muted);font-size:0.95rem;margin-top:1rem">
+                    Listen for the single beep after disconnecting before starting a new link.
+                </p>
+            </div>
+
+            <div class="case-block">
+                <h2>Community feedback</h2>
+                <p>Signal reports from around the area — this one from Robert G4ZWH (operating from Whipsnade Zoo) still makes me smile:</p>
+                <div class="report-image">
+                    <img src="report.png" alt="Signal report screenshot from WhatsApp">
+                </div>
+                <p class="attribution">— Sent by Robert G4ZWH</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>© 2026 Jack Brown · M9JAK</p>
+            <a href="mailto:hello@jackbrown.xyz">hello@jackbrown.xyz</a>
+        </div>
+    </footer>
+</body>
+</html>
