@@ -1,4 +1,4 @@
-# Jack Brown — jackbrown.xyz
+# Jack Brown · jackbrown.xyz
 
 Personal portfolio site, built with [Astro](https://astro.build) and deployed to GitHub Pages.
 

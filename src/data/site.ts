@@ -20,7 +20,7 @@ export const site = {
   github: 'https://github.com/null65',
   linkedin: 'https://www.linkedin.com/in/driverjack',
   description:
-    'Portfolio of Jack Brown — student based in the UK, building websites and systems.',
+    'Portfolio of Jack Brown, student based in the UK, building websites and systems.',
 };
 
 export const skills = [
@@ -67,7 +67,7 @@ export const projects: Project[] = [
     slug: 'radioforus',
     title: 'radioforus.co.uk',
     summary:
-      'Custom website for the RadioForUs YouTube channel — tools, MultiMode docs, and channel links.',
+      'Custom website for the RadioForUs YouTube channel covering tools, MultiMode docs, and channel links.',
     tags: ['HTML', 'CSS', 'JavaScript', 'YouTube API'],
     href: 'https://radioforus.co.uk',
     logo: '/radioforus.png',
