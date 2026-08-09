@@ -19,8 +19,8 @@ const featured = projects.filter((project) => !project.radio).slice(0, 3);
       <h1>{site.name}</h1>
       <p class="meta">Student · {site.location}</p>
       <div class="actions">
-        <a class="button button-primary" href="/projects">View projects</a>
-        <a class="button button-secondary" href="/contact">Enquire about a project</a>
+        <a class="button button-primary" href="/projects/">View projects</a>
+        <a class="button button-secondary" href="/contact/">Enquire about a project</a>
       </div>
     </div>
   </section>
@@ -37,7 +37,7 @@ const featured = projects.filter((project) => !project.radio).slice(0, 3);
   <section class="section" aria-labelledby="projects-heading">
     <div class="section-head">
       <h2 id="projects-heading">Selected work</h2>
-      <a href="/projects">All projects</a>
+      <a href="/projects/">All projects</a>
     </div>
     <div class="project-grid">
       {featured.map((project) => <ProjectCard project={project} />)}

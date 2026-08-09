@@ -5,9 +5,9 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 const links = [
   { href: '/', label: 'Home' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/radio', label: 'Radio' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/projects/', label: 'Projects' },
+  { href: '/radio/', label: 'Radio' },
+  { href: '/contact/', label: 'Contact' },
 ];
 ---
 
@@ -17,7 +17,14 @@ const links = [
     <nav class="nav-links" aria-label="Primary">
       {
         links.map((link) => (
-          <a href={link.href} aria-current={path === link.href ? 'page' : undefined}>
+          <a
+            href={link.href}
+            aria-current={
+              (link.href === '/' ? path === '/' : path === link.href.replace(/\/$/, ''))
+                ? 'page'
+                : undefined
+            }
+          >
             {link.label}
           </a>
         ))
