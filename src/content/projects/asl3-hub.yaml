@@ -1,0 +1,14 @@
+title: ASL3 hub
+summary: >-
+  AllStarLink hub for RadioForUs node testing and MultiMode linking. Still in
+  use for the network.
+tags:
+  - PBX
+  - Linux
+  - Asterisk
+href: ''
+logo: ''
+logoAlt: ''
+radio: true
+featured: false
+order: 4

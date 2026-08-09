@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import { projects } from '../data/site';
+import { getProjects } from '../lib/projects';
 
+const projects = await getProjects();
 const radioProjects = projects.filter((project) => project.radio);
 ---
 

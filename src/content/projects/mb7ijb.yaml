@@ -1,0 +1,15 @@
+title: MB7IJB analogue gateway
+summary: >-
+  AllStarLink gateway running a Motorola GM1280 and a Raspberry Pi 4, kindly
+  provided by G7HMV.
+tags:
+  - PBX
+  - Asterisk
+  - Radio
+  - Linux
+href: ''
+logo: ''
+logoAlt: ''
+radio: true
+featured: false
+order: 5

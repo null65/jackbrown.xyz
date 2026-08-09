@@ -1,0 +1,13 @@
+title: Rockwell Hitec booking system
+summary: >-
+  Custom PHP projector booking system built for Rockwell Hitec to streamline how
+  projectors are booked in.
+tags:
+  - PHP
+  - SQL
+href: ''
+logo: /rockwell-hitec.png
+logoAlt: Rockwell Hitec
+radio: false
+featured: true
+order: 2

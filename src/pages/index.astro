@@ -1,9 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import { projects, site, skills } from '../data/site';
+import { site, skills } from '../data/site';
+import { getProjects } from '../lib/projects';
 
-const featured = projects.filter((project) => !project.radio).slice(0, 3);
+const projects = await getProjects();
+const featured = projects.filter((project) => project.featured).slice(0, 3);
 ---
 
 <BaseLayout>

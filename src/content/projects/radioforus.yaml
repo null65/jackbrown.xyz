@@ -1,0 +1,15 @@
+title: radioforus.co.uk
+summary: >-
+  Custom website for the RadioForUs YouTube channel covering tools, MultiMode
+  docs, and channel links.
+tags:
+  - HTML
+  - CSS
+  - JavaScript
+  - YouTube API
+href: https://radioforus.co.uk
+logo: /radioforus.png
+logoAlt: RadioForUs
+radio: false
+featured: true
+order: 3

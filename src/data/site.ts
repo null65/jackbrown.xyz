@@ -34,63 +34,6 @@ export const skills = [
   'PBX',
 ];
 
-export type Project = {
-  slug: string;
-  title: string;
-  summary: string;
-  tags: string[];
-  href?: string;
-  logo?: string;
-  logoAlt?: string;
-  radio?: boolean;
-};
-
-export const projects: Project[] = [
-  {
-    slug: 'john-kinski',
-    title: 'johnkinski.com',
-    summary:
-      'Website for historic novelist John Kinski, including a custom email address at hello@johnkinski.com.',
-    tags: ['HTML', 'CSS', 'JavaScript', 'Email'],
-    href: 'https://johnkinski.com',
-  },
-  {
-    slug: 'rockwell-hitec',
-    title: 'Rockwell Hitec booking system',
-    summary:
-      'Custom PHP projector booking system built for Rockwell Hitec to streamline how projectors are booked in.',
-    tags: ['PHP', 'SQL'],
-    logo: '/rockwell-hitec.png',
-    logoAlt: 'Rockwell Hitec',
-  },
-  {
-    slug: 'radioforus',
-    title: 'radioforus.co.uk',
-    summary:
-      'Custom website for the RadioForUs YouTube channel covering tools, MultiMode docs, and channel links.',
-    tags: ['HTML', 'CSS', 'JavaScript', 'YouTube API'],
-    href: 'https://radioforus.co.uk',
-    logo: '/radioforus.png',
-    logoAlt: 'RadioForUs',
-  },
-  {
-    slug: 'asl3-hub',
-    title: 'ASL3 hub',
-    summary:
-      'AllStarLink hub for RadioForUs node testing and MultiMode linking. Still in use for the network.',
-    tags: ['PBX', 'Linux', 'Asterisk'],
-    radio: true,
-  },
-  {
-    slug: 'mb7ijb',
-    title: 'MB7IJB analogue gateway',
-    summary:
-      'AllStarLink gateway running a Motorola GM1280 and a Raspberry Pi 4, kindly provided by G7HMV.',
-    tags: ['PBX', 'Asterisk', 'Radio', 'Linux'],
-    radio: true,
-  },
-];
-
 export const friends = [
   {
     name: 'RadioForUs',
